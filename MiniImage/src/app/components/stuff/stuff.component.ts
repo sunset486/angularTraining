@@ -32,8 +32,4 @@ export class StuffComponent implements OnInit {
     this.shoppingCartService.remove(this.stuff)
     this.isInCart = false;
   }
-
-  loginCheck(){
-    return this.isUserAuthenticated
-  }
 }

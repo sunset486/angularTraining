@@ -38,7 +38,7 @@ export class AuthService implements OnInit{
   login(loginBody: LoginModel){
     return this.http.post<AuthResponse>(
       `${environment.apiUrl}/${this.loginurl}`,
-      loginBody)
+      loginBody, {responseType: 'json'})
   }
 
   register(registerBody: RegisterModel) {

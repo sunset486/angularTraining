@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthResponse, LoginModel } from 'src/app/interfaces/auth';
 import { AuthService } from 'src/app/services/auth.service';
@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(["/"])
       },
       error: (err: HttpErrorResponse)=> {
-        debugger
         this.errorMsg = err.message
         console.log(err.message)
         this.errorCheck = true
