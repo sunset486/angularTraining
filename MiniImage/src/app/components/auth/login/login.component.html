@@ -1,0 +1,39 @@
+<div class="flex justify-center h-3">
+    <form [formGroup]="loginForm" (ngSubmit)="submit(loginForm)">
+        <div class="my-5 w-full">
+            <label for="email">Email</label>
+            <input type="email" id="email" 
+            class="p-2 rounded w-full border border-black form-control"
+            formControlName = "email"
+            placeholder="Email address"
+            name="email">
+        </div>
+        <div>
+            <em *ngIf="formValidation('email') &&  validationError('email', 'required')" class="text-red-600">Email is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <label for="password">Password</label>
+            <input type="password" id="password" 
+            class="p-2 rounded w-full border border-black form-control"
+            formControlName = "password"
+            placeholder="Password"
+            name="password">
+        </div>
+        <div>
+            <em *ngIf="formValidation('password') &&  validationError('password', 'required')" class="text-red-600">Password is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <button type="submit" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                <ng-container *ngIf="isLoading()">Logging in...</ng-container>
+                <ng-container *ngIf="!isLoading()">Log in</ng-container>
+            </button>
+        </div>
+        <div>
+            <a routerLink="/register" class="text-black hover:text-red-900 italic"> Don't have an account? Register here!</a>
+        </div>
+        <div *ngIf="errorCheck" class="flex justify-center h-3 text-red-600" role="alert">
+            <span [innerText]="errorMsg"></span>
+        </div>
+    </form>
+    
+</div>

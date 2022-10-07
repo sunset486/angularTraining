@@ -1,0 +1,7 @@
+<h3>Your cart</h3>
+<div *ngIf="getCart().length > 0">
+    <div *ngFor="let stuff of getCart()">
+        <p>{{stuff.name | titlecase}}</p>
+    </div>
+</div>
+<div *ngIf="getCart().length == 0" class="text-red-600">Your cart is empty!</div>

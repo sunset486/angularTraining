@@ -1,0 +1,6 @@
+<h2 class="text-3xl italic underline">We have stuff to sell</h2>
+<ul>
+    <ng-container *ngFor="let stuff of stuffs">
+        <app-stuff [stuff]="stuff"></app-stuff>
+    </ng-container>
+</ul>

@@ -1,0 +1,26 @@
+<title>MiniImage - better than MegaImage!</title>
+
+<nav class="flex justify-between p-4 bg-red-800 text-white font-light">
+  <div>
+    <a routerLink="" class="text-4xl">Mini Image</a>
+  </div>
+  <div>
+    <ng-container *ngIf="!isUserAuthenticated">
+      <a routerLink="/login" class="mx-4 text-lg">Login</a>
+      <a routerLink="/register" class="mx-4 text-lg">Register</a>
+    </ng-container>
+    <ng-container *ngIf="isUserAuthenticated">
+      <a routerLink="/shoppingCart" class="mx-4 text-lg">My cart</a>
+      <button (click)="logout()" routerLink="" class="mx-4 text-lg">Logout</button>
+    </ng-container>
+    <ng-container *ngIf="isUserAdmin()">
+      <a routerLink="/addProducts" class="mx-4 text-lg">Add stuff</a>
+      <a routerLink="/addCategories" class="mx-4 text-lg">Add categories</a>
+      <a routerLink="/assignRoles" class="mx-4 text-lg">Add roles</a>
+      <a (click)="logout()" class="mx-4 text-lg"> Logout</a>
+    </ng-container>
+  </div>
+</nav>
+<div class="p-4">
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,10 @@
+<li>
+    <p>---</p>
+    <img src="data:image/jpeg;base64,{{stuff.src}}" alt="Product Image" width="100"/> 
+    <p class="TitleAndCat">{{ stuff.name | titlecase }}</p>
+    <p class="Price">{{stuff.price | currency:'RON'}}</p>
+    <div>
+        <button *ngIf="!isInCart" (click)="fillCart()">Add item to cart</button>
+        <button *ngIf="isInCart" (click)="removeFromCart()">Remove item to cart</button>
+    </div>
+</li>
