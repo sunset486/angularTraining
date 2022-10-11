@@ -131,19 +131,5 @@ namespace MiniImage.Api.Controllers
 
             return BadRequest(result.Errors.ToList());
         }
-
-        [HttpGet("/auth-check")]
-        public ActionResult<bool> IsUserLogged()
-        {
-            return Ok(User.Identity.IsAuthenticated);
-        }
-
-        [HttpGet("/username")]
-        public async Task<IActionResult> GetUserName()
-        {
-            if(User.Identity.IsAuthenticated)
-                return Ok(User.Identity.Name);
-            return Unauthorized();
-        }
     }
 }

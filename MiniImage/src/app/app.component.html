@@ -6,14 +6,17 @@
   </div>
   <div>
     <ng-container *ngIf="!isUserAuthenticated">
+      
       <a routerLink="/login" class="mx-4 text-lg">Login</a>
       <a routerLink="/register" class="mx-4 text-lg">Register</a>
     </ng-container>
-    <ng-container *ngIf="isUserAuthenticated">
+    <ng-container *ngIf="isUserAuthenticated && userRole != 'admin'">
+      <div class=" inline-flex italic text-cyan-400">Welcome, {{userName}}!</div>
       <a routerLink="/shoppingCart" class="mx-4 text-lg">My cart</a>
-      <button (click)="logout()" routerLink="" class="mx-4 text-lg">Logout</button>
+      <a (click)="logout()" routerLink="" class="mx-4 text-lg">Logout</a>
     </ng-container>
-    <ng-container *ngIf="isUserAdmin()">
+    <ng-container *ngIf="userRole == 'admin'">
+      <div class="inline-flex text-lime-500 text-sm">LOGGED IN AS ADMIN</div>
       <a routerLink="/addProducts" class="mx-4 text-lg">Add stuff</a>
       <a routerLink="/addCategories" class="mx-4 text-lg">Add categories</a>
       <a routerLink="/assignRoles" class="mx-4 text-lg">Add roles</a>

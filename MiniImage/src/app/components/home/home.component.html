@@ -1,0 +1,12 @@
+<div class="flex justify-center">
+    <h1 class="text-5xl font-bold" *ngIf="isVisitor">Welcome to MiniImage!</h1>
+</div>
+<div class="text-2xl text-center" *ngIf="isVisitor">Please log in to access the store!</div>
+<ng-container>
+    <div *ngIf="userRole == 'admin'">
+        <app-admin-welcome></app-admin-welcome>
+    </div>
+    <div *ngIf="!isAdminLoggedIn && !isVisitor">
+        <app-stuffs></app-stuffs>
+    </div>
+</ng-container>

@@ -1,4 +1,4 @@
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -16,17 +16,17 @@ export class AuthService implements OnInit{
   
   private authChangeSub = new Subject<boolean>()
   authChanged = this.authChangeSub.asObservable()
-  isUserAuthenticated: boolean
 
   isLoading: boolean
+  isUserAuthenticated: boolean
   passwordCheck: boolean
   username: string
   
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { 
-    this.isUserAuthenticated = false
     this.isLoading = false
     this.passwordCheck = true
+    this.isUserAuthenticated = false
   }
   ngOnInit(): void {
   }
@@ -38,7 +38,8 @@ export class AuthService implements OnInit{
   login(loginBody: LoginModel){
     return this.http.post<AuthResponse>(
       `${environment.apiUrl}/${this.loginurl}`,
-      loginBody, {responseType: 'json'})
+      loginBody,
+      {responseType: 'json'})
   }
 
   register(registerBody: RegisterModel) {
@@ -51,7 +52,9 @@ export class AuthService implements OnInit{
     this.http.post(`${environment.apiUrl}/${this.logouturl}`, {}, {responseType: 'text'})
     localStorage.clear()
     this.sendAuthStateChangeNotification(false)
-    
+    this.isUserAuthenticated = false
+    localStorage.setItem("isUserAuthenticated", "false")
+    sessionStorage.setItem("isUserAuthenticated", "false")
   }
 
   isUserLogged(){
@@ -59,11 +62,23 @@ export class AuthService implements OnInit{
     return token && !this.jwtHelper.isTokenExpired(token)
   }
 
-  isUserAdmin(){
+  getUserRole(){
     const token = localStorage.getItem("token")!
     const decodedToken = this.jwtHelper.decodeToken(token)
+    if(decodedToken == null){
+      return "Not logged in"
+    }
     const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-    if(role == "admin")
-      return role
-  }  
+    return role
+  }
+  
+  getUsername(){
+    const token = localStorage.getItem("token")!
+    const decodedToken = this.jwtHelper.decodeToken(token)
+    if(decodedToken == null){
+      return "Not logged in"
+    }
+    const name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+    return name
+  }
 }

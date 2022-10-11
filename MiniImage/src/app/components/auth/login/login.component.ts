@@ -1,3 +1,4 @@
+import { ɵparseCookieValue } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -48,7 +49,10 @@ export class LoginComponent implements OnInit {
       next: (res: AuthResponse) => {
         localStorage.setItem("username", res.username)
         localStorage.setItem("token", res.token)
+        localStorage.setItem("isUserAuthenticated", String(res.isUserAuthenticated))
+        sessionStorage.setItem("isUserAuthenticated", String(res.isUserAuthenticated))
         this.authService.sendAuthStateChangeNotification(res.isUserAuthenticated)
+        this.authService.isUserAuthenticated = true
         this.router.navigate(["/"])
       },
       error: (err: HttpErrorResponse)=> {

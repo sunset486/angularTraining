@@ -16,6 +16,8 @@ import { ForbiddenComponent } from './components/errors/forbidden/forbidden.comp
 import { UnauthorizedComponent } from './components/errors/unauthorized/unauthorized.component';
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
 import { BadRequestComponent } from './components/errors/bad-request/bad-request.component';
+import { AdminWelcomeComponent } from './components/admin/admin-welcome/admin-welcome.component';
+import { HomeComponent } from './components/home/home.component';
 
 export function retrieveToken(){
   return localStorage.getItem("token")
@@ -29,6 +31,8 @@ export function retrieveToken(){
     UnauthorizedComponent,
     NotFoundComponent,
     BadRequestComponent,
+    AdminWelcomeComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

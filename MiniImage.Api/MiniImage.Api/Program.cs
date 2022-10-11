@@ -15,7 +15,6 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var config = builder.Configuration;
 var frontHost = "http://localhost:4200/";
-var backHost = "http://localhost:7020/";
 
 // Add services to the container.
 services.AddControllers().AddNewtonsoftJson();

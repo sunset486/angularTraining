@@ -9,18 +9,19 @@ import { BadRequestComponent } from './components/errors/bad-request/bad-request
 import { ForbiddenComponent } from './components/errors/forbidden/forbidden.component';
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
 import { UnauthorizedComponent } from './components/errors/unauthorized/unauthorized.component';
+import { HomeComponent } from './components/home/home.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
-import { StuffsComponent } from './components/stuffs/stuffs.component';
+import { AdminGuard } from './guards/admin.guard';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  {path:'', component:StuffsComponent},
+  {path:'', component:HomeComponent},
   {path:'shoppingCart', component:ShoppingCartComponent, canActivate: [AuthGuard]},
   {path:'login', component:LoginComponent},
   {path:'register', component:RegisterComponent},
-  {path:'addProducts', component:AddProductsComponent, canActivate: [AuthGuard]},
-  {path: 'addCategories', component:AddCategoriesComponent, canActivate: [AuthGuard]},
-  {path: 'assignRoles', component:AssignRolesComponent, canActivate: [AuthGuard]},
+  {path:'addProducts', component:AddProductsComponent, canActivate: [AuthGuard, AdminGuard]},
+  {path: 'addCategories', component:AddCategoriesComponent, canActivate: [AuthGuard, AdminGuard]},
+  {path: 'assignRoles', component:AssignRolesComponent, canActivate: [AuthGuard, AdminGuard]},
   {path: '403', component:ForbiddenComponent},
   {path: '401', component:UnauthorizedComponent},
   {path: '400', component:BadRequestComponent},

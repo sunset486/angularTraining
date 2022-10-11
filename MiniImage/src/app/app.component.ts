@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Stuff } from './models/stuff';
 import { AuthService } from './services/auth.service';
@@ -8,24 +8,35 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, DoCheck{
   title = 'MiniImage'
   products: Stuff[] = []
   loggedUser : string
   isUserAuthenticated: boolean
+  userRole: string
+  userName: string
 
-  constructor (private authService : AuthService, private router: Router){ }
-
-  ngOnInit(): void{
+  constructor (private authService : AuthService, private router: Router){
     this.authService.authChanged
     .subscribe(res=>{
       this.isUserAuthenticated = res;
     })
   }
 
+  ngOnInit(): void{
+    localStorage.setItem("isUserAuthenticated", "false")
+    if(this.authService.isUserLogged()){
+      this.authService.sendAuthStateChangeNotification(true)
+    }
+  }
 
-  isUserAdmin(){
-
+  ngDoCheck(): void {
+    if(this.isUserAuthenticated == true){
+      this.userRole = this.authService.getUserRole()
+      this.userName = this.authService.getUsername()
+    }else{
+      this.userRole = ""
+    }
   }
 
   logout(){
