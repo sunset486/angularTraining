@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniImage.Api.Models;
+using MiniImage.Api.Models.Responses;
 using MiniImage.Api.Resources;
 using MiniImage.Api.Services.Interfaces;
 
 namespace MiniImage.Api.Controllers
 {
+    [Authorize(Roles = "admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -17,7 +19,7 @@ namespace MiniImage.Api.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("/get-category")]
+        [HttpGet("/get-categories")]
         public async Task<ActionResult<IEnumerable<Category>>> GetAllCategory()
         {
             var categories = await _categoryService.GetAllCategories();
@@ -32,13 +34,20 @@ namespace MiniImage.Api.Controllers
         }
 
         [HttpPost("/add-new-category")]
-        public async Task<ActionResult<CategoryResource>> AddNewCategory(Category category)
+        public async Task<ActionResult<CategoryResource>> AddNewCategory([FromBody] CategoryResource resource)
         {
-            var result = await _categoryService.AddNewCategory(category);
-            if (result != null)
-                return Ok($"Added new object to database:\n{category}");
+            if (resource == null || resource.Name == "")
+                return BadRequest("Null resource");
 
-            return StatusCode(500);
+            var category = new Category
+            {
+                Name = resource.Name
+            };
+            var result = await _categoryService.AddNewCategory(category);
+            if (result == null)
+                return Unauthorized("Failed to add");
+
+            return Ok(new CategoryResponse { Name = category.Name});
         }
 
         [HttpPut("/update-category/{id}")]

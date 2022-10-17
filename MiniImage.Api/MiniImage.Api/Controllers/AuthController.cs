@@ -52,7 +52,8 @@ namespace MiniImage.Api.Controllers
                     var errors = signUpResult.Errors.Select(e => e.Description);
                     return BadRequest(new RegistrationErrorResponse { Errors = errors});
                 }
-                await _userManager.AddToRoleAsync(user, "customer");
+                var customerRole = await _roleManager.FindByNameAsync("customer");
+                await _userManager.AddToRoleAsync(user, customerRole.Name);
             }
             return Ok(new RegistrationResponse { Email = user.Email, Username = user.UserName});
                 
@@ -108,26 +109,56 @@ namespace MiniImage.Api.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPost("/add-role")]
-        public async Task<ActionResult<Role>> AddRole(string roleName)
+        [HttpGet("/get-users-with-roles")]
+        public async Task<IActionResult> GetUsersWithRoles()
         {
-            var role = new Role() { Name = roleName };
+            var users = await _userManager.Users.ToListAsync();
+            List<string>? userNames = new List<string>();
+            List<string>? userRoles = new List<string>();
+            
+            foreach (var user in users)
+            {
+                userNames.Add(user.UserName);
+                userRoles.AddRange(await _userManager.GetRolesAsync(user));
+            }
+            var result = new FetchUsersWithRolesResponse
+            {
+                Users = userNames,
+                UserRoles = userRoles
+            };
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost("/add-role")]
+        public async Task<ActionResult<Role>> AddRole([FromBody]RoleResource resource)
+        {
+            if (resource == null || resource.Name == "")
+                return BadRequest("Null resource");
+
+            var role = new Role()
+            {
+                Name = resource.Name
+            };
             await _roleManager.CreateAsync(role);
-            return Ok($"New role created - {role.NormalizedName}");
+            return Ok(new RoleResponse { Name = role.Name});
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost("/add-role-to-user")]
-        public async Task<IActionResult> AssignRoleToUser(string roleName, string userName)
+        public async Task<IActionResult> AssignRoleToUser([FromBody] ModifyUserRoleResource resource)
         {
-            var role = await _roleManager.FindByNameAsync(roleName);
-            var user = await _userManager.FindByNameAsync(userName);
+            if (resource == null || resource.RoleName == "" || resource.UserName == "")
+                return BadRequest("Null resource");
+
+            var role = await _roleManager.FindByNameAsync(resource.RoleName);
+            var user = await _userManager.FindByNameAsync(resource.UserName);
             if (role == null || user == null)
                 return BadRequest("User and/or role do not exist");
 
             var result = await _userManager.AddToRoleAsync(user, role.Name);
             if (result.Succeeded)
-                return Ok($"Assigned {role.NormalizedName} role to user");
+                return Ok(new ModifyUserRoleResponse { RoleName = role.Name, UserName = user.UserName});
 
             return BadRequest(result.Errors.ToList());
         }

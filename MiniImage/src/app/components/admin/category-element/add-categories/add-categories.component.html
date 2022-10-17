@@ -1,0 +1,33 @@
+<div class= "flex justify-center">
+    <h1 class="text-3xl font-bold italic">Add new categories</h1>
+</div>
+<div class="flex justify-center my-5">
+    <form [formGroup]="categoryForm" (ngSubmit)="submit(categoryForm)">
+        <div class="flex justify-center font-bold">Add a new category here:</div>
+        <div class="my-5 w-full">
+            <label for="name">Category name</label>
+            <input type="text" id="name" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "name"
+            placeholder="Category name">
+        </div>
+        <div>
+            <em *ngIf="formValidation('name') &&  validationError('name', 'required')" class="text-red-600">Name is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <button type="submit" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                Add category
+            </button>
+        </div>
+        <div class="my-5">
+            <button (click)="getCats()" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                Fetch list of all categories
+            </button>
+        </div>
+        <div>
+            <div class="text-green-600 text-center" *ngIf="confirmFlag">Category added!</div>
+            <div class="text-red-600 text-center" *ngIf="errorFlag">Failed to add!</div>
+        </div>
+    </form>
+    
+</div>

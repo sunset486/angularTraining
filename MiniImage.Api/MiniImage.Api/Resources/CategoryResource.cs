@@ -1,4 +1,6 @@
-﻿namespace MiniImage.Api.Resources
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MiniImage.Api.Resources
 {
     public class CategoryResource
     {

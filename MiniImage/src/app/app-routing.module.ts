@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddCategoriesComponent } from './components/admin/addcategories/addcategories.component';
-import { AddProductsComponent } from './components/admin/addproducts/addproducts.component';
-import { AssignRolesComponent } from './components/admin/assignroles/assignroles.component';
+import { AddCategoriesComponent } from './components/admin/category-element/add-categories/add-categories.component';
+import { AddProductsComponent } from './components/admin/product-element/addproducts/addproducts.component';
+import { AssignRolesComponent } from './components/admin/role-element/assignroles/assignroles.component';
+import { CategoriesComponent } from './components/admin/category-element/categories/categories.component';
+import { ProductListComponent } from './components/admin/product-element/product-list/product-list.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { BadRequestComponent } from './components/errors/bad-request/bad-request.component';
@@ -13,6 +15,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { AdminGuard } from './guards/admin.guard';
 import { AuthGuard } from './guards/auth.guard';
+import { RolesAndUsersComponent } from './components/admin/role-element/roles-and-users/roles-and-users.component';
 
 const routes: Routes = [
   {path:'', component:HomeComponent},
@@ -22,6 +25,9 @@ const routes: Routes = [
   {path:'addProducts', component:AddProductsComponent, canActivate: [AuthGuard, AdminGuard]},
   {path: 'addCategories', component:AddCategoriesComponent, canActivate: [AuthGuard, AdminGuard]},
   {path: 'assignRoles', component:AssignRolesComponent, canActivate: [AuthGuard, AdminGuard]},
+  {path: 'fetchedList', component:ProductListComponent, canActivate: [AuthGuard, AdminGuard]},
+  {path: 'fetchedCategories', component:CategoriesComponent, canActivate: [AuthGuard, AdminGuard]},
+  {path: 'fetchedUsersWithRoles', component:RolesAndUsersComponent, canActivate: [AuthGuard, AdminGuard]},
   {path: '403', component:ForbiddenComponent},
   {path: '401', component:UnauthorizedComponent},
   {path: '400', component:BadRequestComponent},

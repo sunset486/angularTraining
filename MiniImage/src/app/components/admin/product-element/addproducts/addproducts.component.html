@@ -1,0 +1,86 @@
+<div class= "flex justify-center">
+    <h1 class="text-3xl font-bold italic">Add new products</h1>
+</div>
+<div class="flex justify-center my-5">
+    <form [formGroup]="productForm" (ngSubmit)="submit(productForm)">
+        <div class="flex justify-center font-bold">Add a new product here:</div>
+        <div class="my-5 w-full">
+            <label for="name">Product name</label>
+            <input type="text" id="name" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "name"
+            placeholder="Product name">
+        </div>
+        <div>
+            <em *ngIf="formValidation('name') &&  validationError('name', 'required')" class="text-red-600">Name is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <label for="price">Price</label>
+            <input type="number" id="price" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "price"
+            placeholder="Product price">
+        </div>
+        <div>
+            <em *ngIf="formValidation('price') &&  validationError('price', 'required')" class="text-red-600">Price is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <label for="categoryId">Category ID</label>
+            <input type="number" id="categoryId" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "categoryId"
+            placeholder="Category ID">
+        </div>
+        <div>
+            <em *ngIf="formValidation('categoryId') &&  validationError('categoryId', 'required')" class="text-red-600">CategoryId is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <label for="imagesource">Display image</label>
+            <input type="text" id="imagesource" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "imagesource"
+            placeholder="Image source">
+        </div>
+        <div>
+            <em *ngIf="formValidation('imagesource') &&  validationError('imagesource', 'required')" class="text-red-600"> Image source is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <button type="submit" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                <ng-container>Add new product</ng-container>
+            </button>
+        </div>
+        
+        <div *ngIf="errorCheck" class="flex justify-center h-3 text-red-600" role="alert">
+            <span [innerText]="errorMsg"></span>
+        </div>
+    </form>
+    <form class="mx-10" [formGroup]="findProductForm" (submit)="submitFind(findProductForm)">
+        <div class="flex justify-center font-bold">Get a product by its ID here:</div>
+        <div class="my-5 w-full">
+            <label for="categoryId">Product ID</label>
+            <input type="number" id="categoryId" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "id"
+            placeholder="Product ID">
+        </div>
+        <div>
+            <em *ngIf="formValidation('categoryId') &&  validationError('categoryId', 'required')" class="text-red-600">CategoryId is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <button type="submit" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                <ng-container>Get product information</ng-container>
+            </button>
+        </div>
+        <div *ngIf="errorCheck" class="flex justify-center h-3 text-red-600" role="alert">
+            <span [innerText]="errorMsg"></span>
+        </div>
+    </form>
+    <form class="mx-5">
+        <div class="flex justify-center font-bold">Click here to get a list of all of the products:</div>
+        <div class="my-11">
+            <button (click)="goToList()" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                <ng-container>Fetch all products from database</ng-container>
+            </button>
+        </div>
+    </form>
+</div>

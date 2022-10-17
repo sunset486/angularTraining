@@ -13,6 +13,7 @@ export class AuthService implements OnInit{
   private loginurl = "login"
   private registerurl = "register"
   private logouturl = "logout"
+  private userroleurl = "get-users-with-roles"
   
   private authChangeSub = new Subject<boolean>()
   authChanged = this.authChangeSub.asObservable()
@@ -55,6 +56,10 @@ export class AuthService implements OnInit{
     this.isUserAuthenticated = false
     localStorage.setItem("isUserAuthenticated", "false")
     sessionStorage.setItem("isUserAuthenticated", "false")
+  }
+
+  getUsersAndRolesList(){
+    return this.http.get(`${environment.apiUrl}/${this.userroleurl}`, {responseType: 'json'})
   }
 
   isUserLogged(){

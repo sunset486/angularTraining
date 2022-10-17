@@ -18,6 +18,10 @@ import { NotFoundComponent } from './components/errors/not-found/not-found.compo
 import { BadRequestComponent } from './components/errors/bad-request/bad-request.component';
 import { AdminWelcomeComponent } from './components/admin/admin-welcome/admin-welcome.component';
 import { HomeComponent } from './components/home/home.component';
+import { ProductListComponent } from './components/admin/product-element/product-list/product-list.component';
+import { StuffsAdminComponent } from './components/admin/product-element/stuffs-admin/stuffs-admin.component';
+import { RolesAndUsersComponent } from './components/admin/role-element/roles-and-users/roles-and-users.component';
+import { RolesAndUsersListComponent } from './components/admin/role-element/roles-and-users-list/roles-and-users-list.component';
 
 export function retrieveToken(){
   return localStorage.getItem("token")
@@ -33,6 +37,10 @@ export function retrieveToken(){
     BadRequestComponent,
     AdminWelcomeComponent,
     HomeComponent,
+    ProductListComponent,
+    StuffsAdminComponent,
+    RolesAndUsersComponent,
+    RolesAndUsersListComponent,
   ],
   imports: [
     BrowserModule,

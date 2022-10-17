@@ -1,0 +1,5 @@
+<button (click)="returnToAdmin()" class="p-2 bg-red-700 text-white hover:bg-red-900 rounded">Go back to category management page</button>
+<h3 class="font-bold italic">List of categories</h3>
+<ng-container *ngFor="let category of categories">
+    <app-category [category]="category"></app-category>
+</ng-container>

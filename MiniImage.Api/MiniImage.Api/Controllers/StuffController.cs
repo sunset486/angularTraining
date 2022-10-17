@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MiniImage.Api.Models;
 using MiniImage.Api.Resources;
 using MiniImage.Api.Services.Interfaces;
@@ -30,6 +31,7 @@ namespace MiniImage.Api.Controllers
             return Ok(stuff);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost("/add-new-stuff")]
         public async Task<ActionResult<StuffResource>> AddNewStuff([FromBody] StuffResource resource)
         {
@@ -47,6 +49,7 @@ namespace MiniImage.Api.Controllers
             return StatusCode(500);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("/update-stuff/{id}")]
         public async Task<ActionResult<StuffResource>> UpdateStuff(int id, [FromBody] StuffResource resource)
         {
@@ -66,6 +69,7 @@ namespace MiniImage.Api.Controllers
             return Ok($"Updated product - {newStuff.Name}");
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("/delete-stuff/{id}")]
         public async Task<IActionResult> DeleteStuff(int id)
         {
