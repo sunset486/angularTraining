@@ -1,10 +1,9 @@
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AuthResponse, LoginModel, RegisterModel, RegisterResponse} from '../interfaces/auth';
+import { AuthResponse, FetchUsersWithRolesResponse, LoginModel, RegisterModel, RegisterResponse, RoleModel, RoleResponse, UsernameListResponse, RoleListResponse} from '../interfaces/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,11 @@ export class AuthService implements OnInit{
   private loginurl = "login"
   private registerurl = "register"
   private logouturl = "logout"
+
   private userroleurl = "get-users-with-roles"
+  private usernamesonly = "get-all-users"
+  private rolesonly = "get-all-roles"
+  private addroleurl = "add-role"
   
   private authChangeSub = new Subject<boolean>()
   authChanged = this.authChangeSub.asObservable()
@@ -36,6 +39,7 @@ export class AuthService implements OnInit{
       this.authChangeSub.next(isLoggedIn)
   }
 
+  //#region LOGIN/REGISTRATION
   login(loginBody: LoginModel){
     return this.http.post<AuthResponse>(
       `${environment.apiUrl}/${this.loginurl}`,
@@ -55,13 +59,27 @@ export class AuthService implements OnInit{
     this.sendAuthStateChangeNotification(false)
     this.isUserAuthenticated = false
     localStorage.setItem("isUserAuthenticated", "false")
-    sessionStorage.setItem("isUserAuthenticated", "false")
+  }
+  //#endregion
+
+  //#region 
+  getUsersAndRolesList(): Observable<FetchUsersWithRolesResponse>{
+    return this.http.get<FetchUsersWithRolesResponse>(`${environment.apiUrl}/${this.userroleurl}`, {responseType: "json"})
   }
 
-  getUsersAndRolesList(){
-    return this.http.get(`${environment.apiUrl}/${this.userroleurl}`, {responseType: 'json'})
+  addNewRole(newRoleBody: RoleModel): Observable<any>{
+    return this.http.post<RoleResponse>(`${environment.apiUrl}/${this.addroleurl}`, newRoleBody, {responseType: "json"})
   }
 
+  getUsersOnly(){
+    return this.http.get<UsernameListResponse>(`${environment.apiUrl}/${this.usernamesonly}`, {responseType: "json"})
+  }
+
+  getRolesOnly(){
+    return this.http.get<RoleListResponse>(`${environment.apiUrl}/${this.rolesonly}`, {responseType: "json"})
+  }
+
+  //#region TOKEN FUNCTIONS
   isUserLogged(){
     const token = localStorage.getItem("token")
     return token && !this.jwtHelper.isTokenExpired(token)
@@ -86,4 +104,5 @@ export class AuthService implements OnInit{
     const name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
     return name
   }
+  //#endregion
 }

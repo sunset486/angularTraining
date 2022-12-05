@@ -22,7 +22,7 @@ export interface RegisterResponse{
 }
 //#endregion
 
-//#region ROLES
+//#region ROLES + GET REQUESTS
 export interface RoleModel{
     name: string
 }
@@ -30,6 +30,20 @@ export interface RoleModel{
 export interface RoleResponse{
     name: string
 }
+
+export interface FetchUsersWithRolesResponse{
+    users: string[],
+    userRoles: string[]
+}
+
+export interface UsernameListResponse{
+    usernames: string[]
+}
+
+export interface RoleListResponse{
+    roles: string[]
+}
+
 //#endregion
 
 //#region ADD ROLES TO USER

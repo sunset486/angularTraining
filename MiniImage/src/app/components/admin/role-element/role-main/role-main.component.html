@@ -1,0 +1,36 @@
+<div class= "flex justify-center">
+    <h1 class="text-3xl font-bold italic">Add new roles</h1>
+</div>
+<div class="flex justify-center my-5">
+    <form [formGroup]="roleForm" (ngSubmit)="submit(roleForm)">
+        <div class="flex justify-center font-bold">Add a new role here:</div>
+        <div class="my-5 w-full">
+            <label for="name">Role name</label>
+            <input type="text" id="name" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "name"
+            placeholder="Role name">
+        </div>
+        <div>
+            <em *ngIf="formValidation('name') &&  validationError('name', 'required')" class="text-red-600">Role name is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <button type="submit" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                Add role
+            </button>
+        </div>
+        <div class="my-5">
+            <button (click)="goToAssignRoles()" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">Assign roles to users</button>
+        </div>
+        <div class="my-5">
+            <button (click)="getRolesList()" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">Fetch list of all users and their roles</button>
+        </div>
+        <div>
+            <div class="text-green-600 text-center" *ngIf="confirmFlag">Role added!</div>
+            <div class="text-red-600 text-center" *ngIf="errorFlag">Failed to add!</div>
+        </div>
+    </form>
+    
+    
+</div>
+

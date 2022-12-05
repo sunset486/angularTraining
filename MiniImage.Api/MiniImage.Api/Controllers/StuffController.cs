@@ -51,11 +51,11 @@ namespace MiniImage.Api.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPut("/update-stuff/{id}")]
-        public async Task<ActionResult<StuffResource>> UpdateStuff(int id, [FromBody] StuffResource resource)
+        public async Task<ActionResult<StuffResource>> UpdateStuff(int id, [FromBody]StuffResource resource)
         {
             var oldStuff = await _stuffService.GetStuffById(id);
             if (oldStuff == null)
-                return BadRequest("Category does not exist in database");
+                return BadRequest("Product does not exist");
 
             var newStuff = new Stuff
             {

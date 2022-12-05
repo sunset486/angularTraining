@@ -22,3 +22,17 @@ namespace MiniImage.Api.Data
         }
     }
 }
+
+
+//{
+//  "date": 456,
+//  "project": "Make nice password",
+//  "client": "Falcon",
+//  "resource": "Andrei Petcu",
+//  "duration": 2.5,
+//  "billable": 100,
+//  "subtotal": 250,
+//  "task": "Create password",
+//  "notes": "dont tell",
+//  "worktype": "development"
+//}

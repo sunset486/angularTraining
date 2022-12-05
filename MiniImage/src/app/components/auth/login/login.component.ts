@@ -50,7 +50,8 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("username", res.username)
         localStorage.setItem("token", res.token)
         localStorage.setItem("isUserAuthenticated", String(res.isUserAuthenticated))
-        sessionStorage.setItem("isUserAuthenticated", String(res.isUserAuthenticated))
+        console.log(res.isUserAuthenticated)
+        console.log(localStorage.getItem("isUserAuthenticated"))
         this.authService.sendAuthStateChangeNotification(res.isUserAuthenticated)
         this.authService.isUserAuthenticated = true
         this.router.navigate(["/"])

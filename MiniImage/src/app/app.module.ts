@@ -21,7 +21,9 @@ import { HomeComponent } from './components/home/home.component';
 import { ProductListComponent } from './components/admin/product-element/product-list/product-list.component';
 import { StuffsAdminComponent } from './components/admin/product-element/stuffs-admin/stuffs-admin.component';
 import { RolesAndUsersComponent } from './components/admin/role-element/roles-and-users/roles-and-users.component';
-import { RolesAndUsersListComponent } from './components/admin/role-element/roles-and-users-list/roles-and-users-list.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { UpdateProductComponent } from './components/admin/product-element/update-product/update-product.component';
+import { AssignRolesComponent } from './components/admin/role-element/assign-roles/assign-roles.component';
 
 export function retrieveToken(){
   return localStorage.getItem("token")
@@ -40,7 +42,8 @@ export function retrieveToken(){
     ProductListComponent,
     StuffsAdminComponent,
     RolesAndUsersComponent,
-    RolesAndUsersListComponent,
+    UpdateProductComponent,
+    AssignRolesComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,8 @@ export function retrieveToken(){
         allowedDomains: ["localhost:7020"],
         disallowedRoutes: []
       }
-    })
+    }),
+    NoopAnimationsModule
   ],
   providers: [StuffService, 
     AuthService,

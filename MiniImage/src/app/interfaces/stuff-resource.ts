@@ -4,3 +4,8 @@ export interface StuffResource{
     price: number
     imgSource: string
 }
+
+export interface UpdateBody{
+    id: number,
+    bodyResource: StuffResource
+}

@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit, DoCheck {
    }
   
   ngOnInit(): void {
+    this.checkIfVisitor()
 
   }
   ngDoCheck(): void {
@@ -28,9 +29,10 @@ export class HomeComponent implements OnInit, DoCheck {
   }
 
   checkIfVisitor(){
-    var userStatus = sessionStorage.getItem("isUserAuthenticated")
+    var userStatus = localStorage.getItem("isUserAuthenticated")
     console.log(userStatus)
     if (userStatus == "true"){
+      console.log('false')
       return this.isVisitor = false
     }
     return this.isVisitor = true

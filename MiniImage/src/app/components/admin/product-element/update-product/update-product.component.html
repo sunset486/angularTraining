@@ -1,0 +1,79 @@
+<div class= "flex justify-center">
+    <h1 class="text-3xl font-bold italic">Update a product</h1>
+</div>
+<div class="flex justify-center my-5">
+    <form [formGroup]="updateProductForm" (submit)="submit(updateProductForm)">
+        <div class="flex justify-center font-bold">Update an existing product here:</div>
+        <div class="my-5 w-full">
+            <label for="productId">Id of product<br></label>
+            <select name="productId" id="productId" 
+            class="w-full border border-black rounded"
+            formControlName="id">
+                <ng-container *ngFor="let stuff of stuffs">
+                    <option [value]="stuff.id">{{stuff.id}}</option>
+                </ng-container>
+            </select>
+        </div>
+        <div>
+            <em *ngIf="formValidation('id') &&  validationError('id', 'required')" class="text-red-600">ProductId is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <label for="name">Product name</label>
+            <input type="text" id="name" 
+            class="p-2 rounded w-full border border-black"
+            formControlName = "name"
+            placeholder="Product name">
+        </div>
+        <div>
+            <em *ngIf="formValidation('name') &&  validationError('name', 'required')" class="text-red-600">Name is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <label for="price">Price</label>
+            <input type="string" id="price" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "price"
+            placeholder="Product price">
+        </div>
+        <div>
+            <em *ngIf="formValidation('price') &&  validationError('price', 'required')" class="text-red-600">Price is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <label for="categoryId">Category ID</label>
+            <select name="categoryId" id="categoryId" 
+            class="w-full border border-black rounded"
+            formControlName="categoryId">
+                <ng-container *ngFor="let cat of cats">
+                    <option [value]="cat.id">{{cat.id}}</option>
+                </ng-container>
+            </select>
+        </div>
+        <div>
+            <em *ngIf="formValidation('categoryId') &&  validationError('categoryId', 'required')" class="text-red-600">CategoryId is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <label for="imagesource">Display image</label>
+            <input type="text" id="imagesource" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "imagesource"
+            placeholder="Image source">
+        </div>
+        <div>
+            <em *ngIf="formValidation('imagesource') &&  validationError('imagesource', 'required')" class="text-red-600"> Image source is required</em>
+        </div>
+        <div class="my-5 w-full">
+            <button type="submit" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                <ng-container>Update product</ng-container>
+            </button>
+        </div>
+        <div class="my-5 w-full">
+            <button (click)="backToProducts()" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                <ng-container>Back to products menu</ng-container>
+            </button>
+        </div>
+        
+        <!-- <div *ngIf="errorCheck" class="flex justify-center h-3 text-red-600" role="alert">
+            <span [innerText]="errorMsg"></span>
+        </div> -->
+    </form>
+</div>
+

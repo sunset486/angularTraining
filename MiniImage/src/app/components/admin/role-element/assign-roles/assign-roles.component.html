@@ -1,0 +1,17 @@
+<button (click)="returnToAdmin()" class="p-2 mb-5 bg-red-700 text-white hover:bg-red-900 rounded">Go back to role
+    management page</button>
+<div>
+    <form [formGroup]="assignRoleForm">
+        <div class="my-5 w-2/12">
+            <div class=" font-bold">Assign a role to a user here:</div>
+            <label for="username">User</label>
+            <select
+            id="username" 
+            class="p-2 rounded w-full border border-black" 
+            formControlName = "username"
+            placeholder="Role name">
+                <option *ngFor="let name of userSelectList" [value]="name"></option>
+            </select>
+        </div>
+    </form>
+</div>

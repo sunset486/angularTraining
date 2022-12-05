@@ -1,13 +1,18 @@
-<p>roles-and-users works!</p>
-<table class="border border-black border-separate table-auto">
-    <tr>
-        <th class="border bg-red-300">User</th>
-        <th class="border bg-red-300">Role</th>
-    </tr>
-    <ng-container>
-        <tr>
-            <td class="border px-3 py-4">Test user</td>
-            <td class="border px-3 py-4">Test role</td>
-        </tr>
-    </ng-container>
+<button (click)="returnToAdmin()" class="p-2 mb-5 bg-red-700 text-white hover:bg-red-900 rounded">Go back to role
+    management page</button>
+<table class="border border-black">
+    <thead>
+        <th class="border bg-red-300 rounded">User</th>
+        <th class="border bg-red-300 rounded">Role</th>
+    </thead>
+    <tbody>
+        <ng-container>
+            <tr *ngFor="let un of usrnameList">
+                <td class="border px-3 py-4 rounded flex-col">{{un}}</td>
+            </tr>
+            <tr *ngFor="let roles of roleList">
+                <td class="border px-3 py-4 rounded flex-col">{{roles}}</td>
+            </tr>
+        </ng-container>
+    </tbody>
 </table>

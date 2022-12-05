@@ -10,6 +10,7 @@ export class StuffService {
   private getUrl = "get-stuff"
   private getOneUrl = "get-one-stuff"
   private postUrl = "add-new-stuff"
+  private updateUrl = "update-stuff"
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +24,13 @@ export class StuffService {
 
   addStuff(stuffBody: StuffResource): Observable<Stuff>{
     return this.http.post<Stuff>(`${environment.apiUrl}/${this.postUrl}`, stuffBody,
+    {headers: new HttpHeaders({
+      "Authorization": "Bearer "+ localStorage.getItem("token")
+    })})
+  }
+
+  updateStuff(id: number, productBody: StuffResource): Observable<Stuff>{
+    return this.http.put<Stuff>(`${environment.apiUrl}/${this.updateUrl}/${id}`, {id, productBody},
     {headers: new HttpHeaders({
       "Authorization": "Bearer "+ localStorage.getItem("token")
     })})

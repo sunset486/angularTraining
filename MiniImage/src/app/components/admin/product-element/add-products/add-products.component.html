@@ -26,10 +26,13 @@
         </div>
         <div class="my-5 w-full">
             <label for="categoryId">Category ID</label>
-            <input type="number" id="categoryId" 
-            class="p-2 rounded w-full border border-black" 
-            formControlName = "categoryId"
-            placeholder="Category ID">
+            <select name="categoryId" id="categoryId" 
+            class="w-full border border-black rounded"
+            formControlName="categoryId">
+                <ng-container *ngFor="let cat of cats">
+                    <option [value]="cat.id">{{cat.id}}</option>
+                </ng-container>
+            </select>
         </div>
         <div>
             <em *ngIf="formValidation('categoryId') &&  validationError('categoryId', 'required')" class="text-red-600">CategoryId is required</em>
@@ -57,14 +60,14 @@
     <form class="mx-10" [formGroup]="findProductForm" (submit)="submitFind(findProductForm)">
         <div class="flex justify-center font-bold">Get a product by its ID here:</div>
         <div class="my-5 w-full">
-            <label for="categoryId">Product ID</label>
-            <input type="number" id="categoryId" 
+            <label for="productId">Product ID</label>
+            <input type="number" id="productId" 
             class="p-2 rounded w-full border border-black" 
-            formControlName = "id"
+            formControlName = "productId"
             placeholder="Product ID">
         </div>
         <div>
-            <em *ngIf="formValidation('categoryId') &&  validationError('categoryId', 'required')" class="text-red-600">CategoryId is required</em>
+            <em *ngIf="formValidation('productId') &&  validationError('productId', 'required')" class="text-red-600">CategoryId is required</em>
         </div>
         <div class="my-5 w-full">
             <button type="submit" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
@@ -76,10 +79,13 @@
         </div>
     </form>
     <form class="mx-5">
-        <div class="flex justify-center font-bold">Click here to get a list of all of the products:</div>
-        <div class="my-11">
-            <button (click)="goToList()" class="p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+        <div class="flex justify-center font-bold">Click here for more options:</div>
+        <div class="my-10">
+            <button (click)="goToList()" class="my-1 p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
                 <ng-container>Fetch all products from database</ng-container>
+            </button>
+            <button (click)="goToUpdate()" class="my-1 p-2 w-full bg-red-700 text-white hover:bg-red-900 rounded">
+                <ng-container>Update a product</ng-container>
             </button>
         </div>
     </form>

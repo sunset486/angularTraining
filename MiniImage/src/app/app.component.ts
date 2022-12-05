@@ -24,8 +24,9 @@ export class AppComponent implements OnInit, DoCheck{
   }
 
   ngOnInit(): void{
-    localStorage.setItem("isUserAuthenticated", "false")
+    
     if(this.authService.isUserLogged()){
+      localStorage.setItem("isUserAuthenticated", String(this.authService.isUserAuthenticated))
       this.authService.sendAuthStateChangeNotification(true)
     }
   }

@@ -3,21 +3,25 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StuffResource } from 'src/app/interfaces/stuff-resource';
+import { Category } from 'src/app/models/category';
 import { Stuff } from 'src/app/models/stuff';
+import { CategoryService } from 'src/app/services/category.service';
 import { StuffService } from 'src/app/services/stuff.service';
 
 @Component({
   selector: 'app-addproducts',
-  templateUrl: './addproducts.component.html',
-  styleUrls: ['./addproducts.component.css']
+  templateUrl: './add-products.component.html',
+  styleUrls: ['./add-products.component.css']
 })
 export class AddProductsComponent implements OnInit {
   productForm: FormGroup
+  updateProductForm: FormGroup
   findProductForm: FormGroup
   errorCheck: boolean
   errorMsg: string = ""
+  cats: Category[]
 
-  constructor(private stuffService: StuffService, private router: Router) { 
+  constructor(private stuffService: StuffService, private catService: CategoryService, private router: Router) { 
   }
 
   ngOnInit(): void {
@@ -28,8 +32,10 @@ export class AddProductsComponent implements OnInit {
       'imagesource': new FormControl('', [Validators.required])
     })
     this.findProductForm = new FormGroup({
-      'id': new FormControl('', [Validators.required])
+      'productId': new FormControl('', [Validators.required])
     })
+    this.catService.getCategories()
+    .subscribe((result: Category[]) => (this.cats = result))
   }
 
   formValidation(validatedControl: string){
@@ -42,6 +48,10 @@ export class AddProductsComponent implements OnInit {
   
   goToList(){
     this.router.navigate(["/fetchedList"])
+  }
+
+  goToUpdate(){
+    this.router.navigate(["/updateProduct"])
   }
 
   submit(form: FormGroup){

@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MiniImage.Api.Data;
 using MiniImage.Api.Models.Auth;
 using MiniImage.Api.Models.Responses;
 using MiniImage.Api.Resources;
@@ -15,17 +17,20 @@ namespace MiniImage.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly MiniImageDataContext _context;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly ITokenService _tokenService;
 
-        public AuthController( 
+        public AuthController(
+            MiniImageDataContext context,
             SignInManager<User> signInManager, 
             UserManager<User> userManager, 
             RoleManager<Role> roleManager, 
             ITokenService tokenService)
         {
+            _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
@@ -104,8 +109,30 @@ namespace MiniImage.Api.Controllers
         [HttpGet("/get-all-users")]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
-            var list = await _userManager.Users.ToListAsync();
-            return Ok(list);
+            var users = await _userManager.Users.ToListAsync();
+            List<string> result = new List<string>();
+
+            foreach (var user in users)
+            {
+                result.Add(user.UserName);
+            }
+
+            return Ok(result);
+        }
+        
+        [Authorize(Roles = "admin")]
+        [HttpGet("/get-all-roles")]
+        public async Task<ActionResult<IEnumerable<Role>>> GetAllRoles()
+        {
+            var roles = _roleManager.Roles.ToList();
+            List<string> result = new List<string>();
+
+            foreach(var role in roles)
+            {
+                result.Add(role.Name);
+            }
+
+            return Ok(result);
         }
 
         [Authorize(Roles = "admin")]
@@ -115,18 +142,18 @@ namespace MiniImage.Api.Controllers
             var users = await _userManager.Users.ToListAsync();
             List<string>? userNames = new List<string>();
             List<string>? userRoles = new List<string>();
-            
+
             foreach (var user in users)
             {
                 userNames.Add(user.UserName);
                 userRoles.AddRange(await _userManager.GetRolesAsync(user));
             }
-            var result = new FetchUsersWithRolesResponse
+
+            return Ok(new FetchUsersWithRolesResponse
             {
                 Users = userNames,
                 UserRoles = userRoles
-            };
-            return Ok(result);
+            });
         }
 
         [Authorize(Roles = "admin")]
